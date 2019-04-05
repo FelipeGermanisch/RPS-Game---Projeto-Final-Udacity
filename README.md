@@ -2,6 +2,10 @@
 Projeto Final para Udacity
 
 
+
+# Utilizei como inspiração o código do colega no link abaixo:
+# "https://github.com/ctd1077/Rock-Paper-Scissors/blob/master/rps.py"
+
 import random
 
 moves = ['rock', 'paper', 'scissors']
