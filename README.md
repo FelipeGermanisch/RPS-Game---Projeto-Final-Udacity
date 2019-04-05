@@ -2,7 +2,6 @@
 Projeto Final para Udacity
 
 
-
 import random
 
 moves = ['rock', 'paper', 'scissors']
@@ -19,9 +18,9 @@ class Player():
         pass
 
 
-#Fiz a classe HumanPlayer conforme eu faria e saberia fazer, com "IF",
-#entretanto, não está funcionando, eu digito a opção de jogada e ele não
-#assimila, eu não sei porque.
+# Fiz a classe HumanPlayer conforme eu faria e saberia fazer, com "IF",
+# entretanto, não está funcionando, eu digito a opção de jogada e ele não
+# assimila, eu não sei porque.
 class HumanPlayer(Player):
     def move(self):
 
@@ -35,10 +34,11 @@ class HumanPlayer(Player):
         else:
             print("Opção inválida! Tente novamente")
             humanmove = input('rock, paper, scissors? >')
-            return (humanmove)
+        return (humanmove)
 
 # Essa classe está funcionando normalmente, eu renomeei a variável justamente
 # para identificar o 'move' de cada jogador diferente.
+
 
 class RandomPlayer(Player):
     def move(self):
@@ -76,9 +76,11 @@ class CyclePlayer(Player):
         return (cycmove)
 
 # Essa classe eu não sei o que fazer, eu tentei colocar uma função random para
-# quando a jogada do HumanPlayer na primeira rodada fosse 'none', mas não
-# funcionou, o intuito era que a primeira jogada do ReflectPlayer fosse aleatória
+# quando a jogada do HumanPlayer na primeira rodada ser 'none', mas não
+# funcionou, a ideia era que a primeira jogada do ReflectPlayer fosse aleatória
 # também não sei porque não funcionou.
+
+
 class ReflectPlayer(Player):
     def __init__(self):
 
@@ -91,10 +93,12 @@ class ReflectPlayer(Player):
 
         else:
             refmove = self.learn_move
-            return (refmove)
-#Eu testei essa função inúmeras vezes, eu não sei porque, mas ela não está
-# contando a pontuação, mesmo comigo não conseguindo fazer a jogada do HumanPlayer
-# não está contando vitória para o oponente.
+        return (refmove)
+
+# Eu testei essa função inúmeras vezes, eu não sei porque, mas ela não está
+# contando a pontuação, mesmo comigo não conseguindo fazer a jogada do
+# HumanPlayer, não está contando vitória para o oponente.
+
     def learn(self, learn_move):
         self.learn_move = learn_move
 
@@ -104,14 +108,12 @@ class Game():
         self.p1 = HumanPlayer()
         self.p2 = p2
 
-
     def play_round(self):
-        playermove1 = self.p1.move()
-        playermove2 = self.p2.move()
-        resultado = Game.play(playermove1, playermove2)
-        self.p1.learn(playermove1)
-        self.p2.learn(playermove2)
-
+        jogada1 = self.p1.move()
+        jogada2 = self.p2.move()
+        resultado = Game.play(jogada1, jogada2)
+        self.p1.learn(jogada1)
+        self.p2.learn(jogada2)
 
     def play_single(self):
         print("RPS game!")
@@ -140,24 +142,23 @@ class Game():
         print('Placar final: ' + str(self.p1.score) + ' a ' +
               str(self.p2.score))
 
-
-    def play(self, playermove1, playermove2):
-            print(f"Tu jogou {playermove1}")
-            print(f"Oponente jogou {playermove2}")
-            if beats(playermove1, playermove2):
+    def play(self, jogada1, jogada2):
+            print(f"Tu jogou {jogada1}")
+            print(f"Oponente jogou {jogada2}")
+            if beats(jogada1, jogada2):
                 print (" JOGADOR 1 VENCEU ")
-                print(f"Pontos: Jogador 1: {playermove1} x Jogador 2: {playermove2}\n\n")
+                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
                 self.p1.score += 1
                 return 1
-            elif beats(playermove1, playermove2):
+            elif beats(jogada1, jogada2):
                 print (" JOGADOR 2 VENCEU! ")
 
-                print(f"Pontos: Jogador 1: {playermove1} x Jogador 2: {playermove2}\n\n")
+                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
                 self.p2.score += 1
                 return 2
             else:
                 print ("EMPATOU!")
-                print(f"Pontos: Jogador 1: {playermove1} x Jogador 2: {playermove2}\n\n")
+                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
                 return 0
 
 
@@ -166,13 +167,12 @@ def beats(one, two):
             (one == 'scissors' and two == 'paper') or
             (one == 'paper' and two == 'rock'))
 
-if __name__ == '__main__':
-
-# Eu tirei os outros módulos de jogo e deixei só os que eu saberia fazer mesmo
+# Eu tirei os outros módulos de jogo e refiz com os que eu saberia fazer mesmo
 # não vejo sentido no módulo 'rock' de sempre jogar a mesma jogada.
-p2 = input('Modo de jogo?\
-    1-Aleatório, 2-Cíclico, ou 3-Refletivo: >')
 
+    if __name__ == '__main__':
+        p2 = input('Modo de jogo?\
+        1-Aleatório, 2-Cíclico, ou 3-Refletivo: >')
     if p2 == '1':
         p2 = RandomPlayer()
     elif p2 == '2':
@@ -191,6 +191,8 @@ p2 = input('Modo de jogo?\
         elif rounds == 'c':
             Game.play_game()
             break
-        elif rounds != 'u' and rounds != 'c':
+        else:
             print('Tente novamente')
-            rounds = input('Aperte 1 para 1 rodada ou 2 para uma partida completa: >')
+            rounds = input('(1) para uma rodada ou (2) para jogo completo: >')
+            break
+
