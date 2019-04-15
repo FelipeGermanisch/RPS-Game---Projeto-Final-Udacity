@@ -20,8 +20,6 @@ class Player():
 
 
 class HumanPlayer(Player):
-    lastmove = 0
-
     def move(self):
 
         humanmove = input('rock, paper, scissors? >')
@@ -34,7 +32,6 @@ class HumanPlayer(Player):
         else:
             print("Opção inválida! Tente novamente")
             humanmove = input('rock, paper, scissors? >')
-            lastmove == humanmove
         return (humanmove)
 
 
@@ -81,7 +78,10 @@ class ReflectPlayer(Player):
         self.learn_move = learn_move
 
     def move(self):
-        return p1.lastmove
+        if self.learn_move is None:
+            return random.choice(moves)
+        else:
+            return self.learn_move
 
 
 class RockPlayer(Player):
@@ -99,8 +99,8 @@ class Game():
         jogada1 = self.p1.move()
         jogada2 = self.p2.move()
         resultado = Game.play(jogada1, jogada2)
-        self.p1.learn(jogada1)
-        self.p2.learn(jogada2)
+        self.p1.learn(jogada2)
+        self.p2.learn(jogada1)
 
     def play_single(self):
         print("RPS game!")
