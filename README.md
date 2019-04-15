@@ -182,3 +182,4 @@ while True:
         print('Opção inválida, tente novamente')
         rounds = input('Tecle [u] para 1 rodada ou [c] para jogo completo: >')
         break
+
