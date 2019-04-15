@@ -1,8 +1,5 @@
 # RPS-Game---Projeto-Final-Udacity
-Projeto Final para Udacity
-
-
-
+# Projeto Final para Udacity
 # Utilizei como inspiração o código do colega no link abaixo:
 # "https://github.com/ctd1077/Rock-Paper-Scissors/blob/master/rps.py"
 
@@ -22,10 +19,9 @@ class Player():
         pass
 
 
-# Fiz a classe HumanPlayer conforme eu faria e saberia fazer, com "IF",
-# entretanto, não está funcionando, eu digito a opção de jogada e ele não
-# assimila, eu não sei porque.
 class HumanPlayer(Player):
+    lastmove = 0
+
     def move(self):
 
         humanmove = input('rock, paper, scissors? >')
@@ -38,10 +34,8 @@ class HumanPlayer(Player):
         else:
             print("Opção inválida! Tente novamente")
             humanmove = input('rock, paper, scissors? >')
+            lastmove == humanmove
         return (humanmove)
-
-# Essa classe está funcionando normalmente, eu renomeei a variável justamente
-# para identificar o 'move' de cada jogador diferente.
 
 
 class RandomPlayer(Player):
@@ -50,10 +44,6 @@ class RandomPlayer(Player):
         return (randomove)
 
 
-# Eu refiz essa classe com uma nomenclatura diferente mais para eu me achar
-# no código e também para ela abarcar o jogo de melhor de 5, que acho melhor
-# para extrapolar as opções, desta forma, a CyclePlayer começa jogando rock
-# depois na quarta rodada começa jogando rock novamente e depois paper de novo.
 class CyclePlayer(Player):
     def __init__(self):
         Player.__init__(self)
@@ -79,37 +69,30 @@ class CyclePlayer(Player):
             self.turn = self.turn + 1
         return (cycmove)
 
-# Essa classe eu não sei o que fazer, eu tentei colocar uma função random para
-# quando a jogada do HumanPlayer na primeira rodada ser 'none', mas não
-# funcionou, a ideia era que a primeira jogada do ReflectPlayer fosse aleatória
-# também não sei porque não funcionou.
-
 
 class ReflectPlayer(Player):
-    def __init__(self):
 
+    def __init__(self, p1):
+        self.p1 = p1
         Player.__init__(self)
         self.learn_move = None
-
-    def move(self):
-        if self.learn_move is None:
-            refmove = random.choice(moves)
-
-        else:
-            refmove = self.learn_move
-        return (refmove)
-
-# Eu testei essa função inúmeras vezes, eu não sei porque, mas ela não está
-# contando a pontuação, mesmo comigo não conseguindo fazer a jogada do
-# HumanPlayer, não está contando vitória para o oponente.
 
     def learn(self, learn_move):
         self.learn_move = learn_move
 
+    def move(self):
+        return p1.lastmove
+
+
+class RockPlayer(Player):
+    def move(self):
+        rockmove = moves[0]
+        return (rockmove)
+
 
 class Game():
-    def __init__(self, p2):
-        self.p1 = HumanPlayer()
+    def __init__(self, p1, p2):
+        self.p1 = p1
         self.p2 = p2
 
     def play_round(self):
@@ -121,7 +104,7 @@ class Game():
 
     def play_single(self):
         print("RPS game!")
-        print (f"Rodada única:")
+        print(f"Rodada única:")
         self.play_round()
         if self.p1.score == self.p2.score:
             print('O jogo deu empate!')
@@ -135,7 +118,7 @@ class Game():
     def play_game(self):
         print("RPS game!")
         for round in [1, 2, 3, 4, 5]:
-            print (f"Rodada {round}:")
+            print(f"Rodada {round}:")
             self.play_round()
         if self.p1.score == self.p2.score:
             print('O jogo deu empate!')
@@ -147,56 +130,55 @@ class Game():
               str(self.p2.score))
 
     def play(self, jogada1, jogada2):
-            print(f"Tu jogou {jogada1}")
-            print(f"Oponente jogou {jogada2}")
-            if beats(jogada1, jogada2):
-                print (" JOGADOR 1 VENCEU ")
-                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
-                self.p1.score += 1
-                return 1
-            elif beats(jogada1, jogada2):
-                print (" JOGADOR 2 VENCEU! ")
+        print(f"Tu jogou {jogada1}")
+        print(f"Oponente jogou {jogada2}")
+        if onewins(jogada1, jogada2):
+            print(" JOGADOR 1 VENCEU ")
+            self.p1.score += 1
+            print(f"Pontos: P1: {self.p1.score} x P2: {self.p2.score}\n\n")
+            return 1
+        elif (jogada1 == jogada2):
+            print("EMPATOU!")
+            print(f"Pontos: P1: {self.p1.score} x P2: {self.p2.score}\n\n")
+            return 0
+        else:
+            print(" JOGADOR 2 VENCEU! ")
+            self.p2.score += 1
+            print(f"Pontos: P1: {self.p1.score} x P2: {self.p2.score}\n\n")
+            return 2
 
-                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
-                self.p2.score += 1
-                return 2
-            else:
-                print ("EMPATOU!")
-                print(f"Pontos: Jogador1: {jogada1} x Jogador2: {jogada2}\n\n")
-                return 0
 
-
-def beats(one, two):
+def onewins(one, two):
     return ((one == 'rock' and two == 'scissors') or
             (one == 'scissors' and two == 'paper') or
             (one == 'paper' and two == 'rock'))
 
-# Eu tirei os outros módulos de jogo e refiz com os que eu saberia fazer mesmo
-# não vejo sentido no módulo 'rock' de sempre jogar a mesma jogada.
 
-    if __name__ == '__main__':
-        p2 = input('Modo de jogo?\
-        1-Aleatório, 2-Cíclico, ou 3-Refletivo: >')
-    if p2 == '1':
-        p2 = RandomPlayer()
-    elif p2 == '2':
-        p2 = CyclePlayer()
-    elif p2 == '3':
-        p2 = ReflectPlayer()
+if __name__ == '__main__':
+    p1 = HumanPlayer()
+    p2 = input('Modo de jogo?\
+   1-Aleatório, 2-Cíclico, 3-Refletivo ou 4-Rock: >')
+if p2 == '1':
+    p2 = RandomPlayer()
+elif p2 == '2':
+    p2 = CyclePlayer()
+elif p2 == '3':
+    p2 = ReflectPlayer(p1)
+elif p2 == '4':
+    p2 = RockPlayer()
+else:
+    p2 = RandomPlayer()
+
+rounds = input('Tecle [u] para 1 rodada ou [c] para jogo completo: >')
+Game = Game(p1, p2)
+while True:
+    if rounds == 'u':
+        Game.play_single()
+        break
+    elif rounds == 'c':
+        Game.play_game()
+        break
     else:
-        p2 = RandomPlayer()
-
-    rounds = input('Aperte [u] para 1 rodada ou [c] para um jogo completo: >')
-    Game = Game(p2)
-    while True:
-        if rounds == 'u':
-            Game.play_single()
-            break
-        elif rounds == 'c':
-            Game.play_game()
-            break
-        else:
-            print('Tente novamente')
-            rounds = input('(1) para uma rodada ou (2) para jogo completo: >')
-            break
-
+        print('Opção inválida, tente novamente')
+        rounds = input('Tecle [u] para 1 rodada ou [c] para jogo completo: >')
+        break
