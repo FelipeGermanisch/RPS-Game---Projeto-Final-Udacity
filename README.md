@@ -22,17 +22,27 @@ class Player():
 class HumanPlayer(Player):
     def move(self):
 
-        humanmove = input('rock, paper, scissors? >')
-        if humanmove == 'rock':
-            humanmove == moves[0]
-        elif humanmove == 'paper':
-            humanmove == moves[1]
-        elif humanmove == 'scissors':
-            humanmove == moves[2]
+        humove = input('rock, paper, scissors? >')
+
+        while humove != 'rock'and humove != 'paper'and humove != 'scissors':
+            print("Opção inválida! Tente novamente")
+            humove = input('rock, paper, scissors? >')
+        return (humove)
+
+
+'''
+        humove = input('rock, paper, scissors? >')
+        if humove == 'rock':
+            humove == moves[0]
+        elif humove == 'paper':
+            humove == moves[1]
+        elif humove == 'scissors':
+            humove == moves[2]
         else:
             print("Opção inválida! Tente novamente")
-            humanmove = input('rock, paper, scissors? >')
-        return (humanmove)
+            humove = input('rock, paper, scissors? >')
+        return (humove)
+'''
 
 
 class RandomPlayer(Player):
